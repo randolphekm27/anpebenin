@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", sans-serif;
+  
+  --color-brand-primary: #00A651;
+  --color-brand-dark: #006B3F;
+  --color-brand-accent: #F4C300;
+  --color-brand-black: #111111;
+  --color-brand-gray-dark: #2B2B2B;
+  --color-brand-gray-light: #F5F5F5;
+  
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+@layer base {
+  body {
+    @apply bg-white text-brand-black antialiased font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tighter leading-[0.95] font-black;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 sm:px-12 lg:px-12;
+  }
+  
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-emerald-100;
+    @apply bg-brand-primary text-white hover:bg-brand-dark;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] border-2 border-brand-primary bg-white text-brand-primary hover:bg-emerald-50;
+  }
+  
+  .card-premium {
+    @apply bg-white border border-gray-100 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+}

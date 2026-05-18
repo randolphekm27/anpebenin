@@ -1,0 +1,6 @@
+{
+  "name": "ANPE BÉNIN - Digital Jobs Ecosystem",
+  "description": "Premium digital platform for employment, training, and professional integration in Benin.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
