@@ -64,7 +64,7 @@ export const ServicesPage = () => {
               <h2 className="text-3xl lg:text-4xl font-bold">Besoin d'un conseil spécifique ?</h2>
               <p className="text-brand-gray-dark/60 italic text-sm lg:text-base">"Notre mission est de ne laisser aucun talent sans opportunité."</p>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
-                 <button className="btn-primary w-full sm:w-auto">Prendre RDV</button>
+                 <button onClick={() => alert('Ouverture du calendrier de prise de rendez-vous...')} className="btn-primary w-full sm:w-auto">Prendre RDV</button>
                  <div className="flex items-center space-x-2 text-brand-primary font-bold">
                     <HeadphonesIcon size={20} />
                     <span>Appelez le 113</span>

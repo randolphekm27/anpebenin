@@ -45,6 +45,13 @@ export const TrainingPage = () => {
     }
   ];
 
+  const [selectedCategory, setSelectedCategory] = useState('Digital & IT');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert('Recherche de formation : ' + (e.target as any)[0].value);
+  };
+
   return (
     <div className="bg-brand-gray-light/30 min-h-screen">
       {/* Immersive Header Section */}
@@ -61,7 +68,7 @@ export const TrainingPage = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row bg-white p-2 rounded-2xl sm:rounded-full shadow-2xl border border-white/10 w-full lg:w-auto mx-auto lg:max-w-xl">
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row bg-white p-2 rounded-2xl sm:rounded-full shadow-2xl border border-white/10 w-full lg:w-auto mx-auto lg:max-w-xl">
             <div className="flex items-center px-6 sm:px-8 py-4 sm:py-0 w-full">
               <Search size={20} className="text-brand-primary mr-3 flex-shrink-0" />
               <input 
@@ -70,11 +77,11 @@ export const TrainingPage = () => {
                 className="outline-none text-sm w-full bg-transparent font-medium text-brand-black placeholder:text-gray-400" 
               />
             </div>
-            <button className="bg-brand-primary text-white py-4 px-6 sm:p-5 rounded-xl sm:rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center w-full sm:w-auto">
+            <button type="submit" className="bg-brand-primary text-white py-4 px-6 sm:p-5 rounded-xl sm:rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center w-full sm:w-auto">
               <span className="sm:hidden mr-3 font-bold">Lancer la recherche</span>
               <Search size={20} />
             </button>
-          </div>
+          </form>
         </div>
       </div>
 
@@ -84,7 +91,8 @@ export const TrainingPage = () => {
           {categories.map((cat, idx) => (
             <button 
               key={idx} 
-              className={`whitespace-nowrap px-6 py-3 rounded-full border border-brand-black/5 text-sm font-medium transition-all hover:border-brand-primary hover:text-brand-primary ${idx === 0 ? 'bg-brand-primary text-white border-brand-primary' : 'bg-white text-brand-gray-dark/60'}`}
+              onClick={() => setSelectedCategory(cat)}
+              className={`whitespace-nowrap px-6 py-3 rounded-full border border-brand-black/5 text-sm font-medium transition-all hover:border-brand-primary hover:text-brand-primary ${selectedCategory === cat ? 'bg-brand-primary text-white border-brand-primary' : 'bg-white text-brand-gray-dark/60'}`}
             >
               {cat}
             </button>
@@ -119,7 +127,10 @@ export const TrainingPage = () => {
                     <Star size={14} fill="currentColor" />
                     <span className="text-xs font-bold text-brand-gray-dark">{course.rating}</span>
                   </div>
-                  <button className="text-brand-primary p-2 bg-brand-primary/5 rounded-full hover:bg-brand-primary hover:text-white transition-all">
+                  <button 
+                    onClick={() => alert(`Inscription à la formation: ${course.title}`)}
+                    className="text-brand-primary p-2 bg-brand-primary/5 rounded-full hover:bg-brand-primary hover:text-white transition-all"
+                  >
                     <ArrowRight size={18} />
                   </button>
                 </div>

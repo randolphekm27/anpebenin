@@ -17,6 +17,7 @@ import { AuthPage } from './pages/Auth.tsx';
 import { ServicesPage } from './pages/Services.tsx';
 import { ContactPage, AboutPage } from './pages/StaticPages.tsx';
 import { MobileVision, SocialSystem } from './pages/DesignSystem.tsx';
+import { ActualitesPage, FAQPage, EventsPage } from './pages/HelpNews.tsx';
 
 // --- Components ---
 
@@ -439,16 +440,87 @@ const HomePage = () => {
 
 const JobBoardPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
+
   const jobs = [
-    { title: 'Développeur FullStack Senior', company: 'InovBénin', location: 'Cotonou', type: 'CDI', salary: '450k - 700k CFA', date: 'Il y a 2 jours' },
-    { title: 'Responsable Marketing Digital', company: 'Digital Africa', location: 'Porto-Novo', type: 'CDA', salary: '350k - 500k CFA', date: 'Il y a 4 jours' },
-    { title: 'Analyste Financier', company: 'Banque Atlantique', location: 'Cotonou', type: 'CDI', salary: '600k - 900k CFA', date: 'Il y a 1 semaine' },
-    { title: 'Project Manager IT', company: 'E-Benin', location: 'Bureau / Télétravail', type: 'Expertise', salary: 'Consultant', date: 'Il y a 1 jour' },
-    { title: 'Ingénieur DevOps', company: 'Orange Bénin', location: 'Cotonou', type: 'CDI', salary: '800k - 1.2M CFA', date: 'Il y a 3 jours' },
+    { title: 'Développeur FullStack Senior', company: 'InovBénin', location: 'Cotonou', type: 'CDI', salary: '450k - 700k CFA', date: 'Il y a 2 jours', desc: 'Nous recherchons un expert React/Node pour rejoindre notre équipe d\'innovation. Vous travaillerez sur des projets d\'envergure nationale.' },
+    { title: 'Responsable Marketing Digital', company: 'Digital Africa', location: 'Porto-Novo', type: 'CDA', salary: '350k - 500k CFA', date: 'Il y a 4 jours', desc: 'Pilotez la stratégie digitale d\'une agence dynamique. Expertise SEO/SEM requise.' },
+    { title: 'Analyste Financier', company: 'Banque Atlantique', location: 'Cotonou', type: 'CDI', salary: '600k - 900k CFA', date: 'Il y a 1 semaine', desc: 'Analyse de risques et gestion de portefeuilles institutionnels.' },
+    { title: 'Project Manager IT', company: 'E-Benin', location: 'Bureau / Télétravail', type: 'Expertise', salary: 'Consultant', date: 'Il y a 1 jour', desc: 'Coordination de projets gouvernementaux de digitalisation.' },
+    { title: 'Ingénieur DevOps', company: 'Orange Bénin', location: 'Cotonou', type: 'CDI', salary: '800k - 1.2M CFA', date: 'Il y a 3 jours', desc: 'Maintenance et évolution des infrastructures cloud critiques.' },
   ];
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert('Recherche en cours pour : ' + (e.target as any)[0].value);
+  };
 
   return (
     <div className="pt-32 pb-20 bg-brand-gray-light/30 min-h-screen">
+      <AnimatePresence>
+        {selectedJob && (
+          <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedJob(null)}
+              className="absolute inset-0 bg-brand-black/60 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl relative z-10 overflow-hidden"
+            >
+              <div className="p-8 sm:p-12 space-y-8">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center space-x-6">
+                    <div className="w-16 h-16 bg-brand-primary text-white flex items-center justify-center rounded-2xl font-bold text-2xl">
+                       {selectedJob.company[0]}
+                    </div>
+                    <div>
+                       <h2 className="text-3xl font-black tracking-tighter">{selectedJob.title}</h2>
+                       <p className="text-brand-gray-dark/40 font-bold uppercase tracking-widest text-sm">{selectedJob.company}</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setSelectedJob(null)} className="p-2 hover:bg-brand-gray-light rounded-full transition-colors"><X size={24} /></button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                   <div className="p-4 bg-brand-gray-light rounded-2xl">
+                      <p className="text-[10px] font-bold text-brand-gray-dark/40 uppercase tracking-widest mb-1">Localisation</p>
+                      <p className="font-bold flex items-center"><MapPin size={14} className="mr-2 text-brand-primary" /> {selectedJob.location}</p>
+                   </div>
+                   <div className="p-4 bg-brand-gray-light rounded-2xl">
+                      <p className="text-[10px] font-bold text-brand-gray-dark/40 uppercase tracking-widest mb-1">Type de contrat</p>
+                      <p className="font-bold flex items-center"><Briefcase size={14} className="mr-2 text-brand-primary" /> {selectedJob.type}</p>
+                   </div>
+                </div>
+
+                <div className="space-y-4">
+                   <h3 className="font-bold text-lg">Description du poste</h3>
+                   <p className="text-brand-gray-dark/60 leading-relaxed">{selectedJob.desc}</p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                   <button 
+                     onClick={() => alert(`Candidature envoyée pour ${selectedJob.title} !`)}
+                     className="btn-primary flex-1 py-5"
+                   >
+                     Confirmer ma candidature
+                   </button>
+                   <button className="bg-brand-gray-light text-brand-black px-8 py-5 rounded-2xl font-bold flex items-center justify-center hover:bg-brand-gray-light/80 transition-all">
+                      <Bookmark size={20} className="mr-2" />
+                      Sauvegarder
+                   </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="container-custom space-y-8 lg:space-y-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="space-y-4 max-w-2xl text-center lg:text-left px-4 lg:px-0">
@@ -457,7 +529,7 @@ const JobBoardPage = () => {
             <p className="text-brand-gray-dark/60 text-base sm:text-lg">Plus de 2,400 offres vérifiées par l'État pour propulser votre carrière.</p>
           </div>
           
-          <div className="flex flex-col sm:flex-row bg-white p-2 rounded-2xl sm:rounded-full shadow-2xl border border-brand-black/5 w-full lg:w-auto mx-auto lg:mx-0">
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row bg-white p-2 rounded-2xl sm:rounded-full shadow-2xl border border-brand-black/5 w-full lg:w-auto mx-auto lg:mx-0">
             <div className="flex items-center px-6 sm:px-8 border-b sm:border-b-0 sm:border-r border-brand-gray-light py-4 sm:py-0">
               <Search size={20} className="text-brand-primary mr-3 flex-shrink-0" />
               <input type="text" placeholder="Poste, mots-clés..." className="outline-none text-sm w-full lg:w-48 bg-transparent font-medium" />
@@ -471,11 +543,11 @@ const JobBoardPage = () => {
                 <option>Parakou</option>
               </select>
             </div>
-            <button className="bg-brand-primary text-white py-4 px-6 sm:p-5 rounded-xl sm:rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center w-full sm:w-auto">
+            <button type="submit" className="bg-brand-primary text-white py-4 px-6 sm:p-5 rounded-xl sm:rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center w-full sm:w-auto">
               <span className="sm:hidden mr-2 font-bold">Rechercher</span>
               <ArrowRight size={20} />
             </button>
-          </div>
+          </form>
         </div>
 
         <div className="flex lg:hidden px-4">
@@ -525,7 +597,12 @@ const JobBoardPage = () => {
             <div className="bg-brand-primary p-8 rounded-[2rem] text-white space-y-6 shadow-2xl relative overflow-hidden">
                <h3 className="text-xl font-bold relative z-10">Recevez des alertes personnalisées.</h3>
                <p className="text-white/70 text-sm relative z-10">Ne manquez plus aucune opportunité correspondant à votre profil.</p>
-               <button className="w-full py-4 bg-white text-brand-primary rounded-xl font-bold text-sm hover:bg-brand-accent hover:text-brand-black transition-all relative z-10">M'alerter</button>
+               <button 
+                 onClick={() => alert('Une alerte email a été créée pour vos critères !')}
+                 className="w-full py-4 bg-white text-brand-primary rounded-xl font-bold text-sm hover:bg-brand-accent hover:text-brand-black transition-all relative z-10"
+               >
+                 M'alerter
+               </button>
                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
             </div>
           </aside>
@@ -543,6 +620,7 @@ const JobBoardPage = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
+                onClick={() => setSelectedJob(job)}
                 className="bg-white p-6 sm:p-8 lg:p-10 rounded-[2.5rem] border border-brand-black/5 hover:border-brand-primary/30 hover:shadow-2xl transition-all cursor-pointer group relative overflow-hidden"
               >
                 <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8">
@@ -695,13 +773,13 @@ export default function App() {
             <Route path="/formations" element={<TrainingPage />} />
             <Route path="/programmes" element={<ProgrammesPage />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/actualites" element={<PlaceholderPage title="Actualités ANPE" />} />
+            <Route path="/actualites" element={<ActualitesPage />} />
             <Route path="/a-propos" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/connexion" element={<AuthPage />} />
             <Route path="/dashboard" element={<UserDashboard />} />
-            <Route path="/evenements" element={<PlaceholderPage title="Événements & Salons" />} />
-            <Route path="/faq" element={<PlaceholderPage title="Centre d'aide" />} />
+            <Route path="/evenements" element={<EventsPage />} />
+            <Route path="/faq" element={<FAQPage />} />
             <Route path="/espace-recruteurs" element={<RecruiterSpacePage />} />
             <Route path="/espace-jeunes" element={<ProgrammesPage />} />
           </Routes>

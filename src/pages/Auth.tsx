@@ -1,10 +1,17 @@
 import { motion } from 'motion/react';
 import { Mail, Lock, User, ArrowRight, ShieldCheck, Briefcase } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate auth check
+    navigate('/dashboard');
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-brand-gray-light p-4 sm:p-6 pt-24 pb-12">
@@ -52,7 +59,7 @@ export const AuthPage = () => {
             </p>
           </div>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-brand-gray-dark/40">Nom complet</label>
