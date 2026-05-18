@@ -50,73 +50,79 @@ const Navbar = () => {
   if (isDashboard) return null;
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${(!isHomePage || isScrolled || isMenuOpen) ? 'bg-white/95 backdrop-blur-md shadow-sm py-2 lg:py-3' : 'bg-transparent py-4 lg:py-6'}`}>
-      <div className="container-custom flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2 sm:space-x-3 relative z-[60] focus:outline-none">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-primary rounded-lg flex items-center justify-center">
-            <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white rounded-sm rotate-45"></div>
-          </div>
-          <div className="flex flex-col leading-none">
-            <span className={`font-display font-black text-lg sm:text-xl tracking-tighter ${(!isHomePage || isScrolled || isMenuOpen) ? 'text-brand-primary' : (isHomePage ? 'text-white' : 'text-brand-primary')}`}>ANPE</span>
-            <span className={`text-[7px] sm:text-[8px] uppercase tracking-widest font-bold leading-none ${(!isHomePage || isScrolled || isMenuOpen) ? 'text-brand-gray-dark' : (isHomePage ? 'text-white/80' : 'text-brand-gray-dark')}`}>BÉNIN</span>
-          </div>
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center space-x-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              to={link.path} 
-              className={`text-[13px] font-bold uppercase tracking-widest transition-colors hover:text-brand-primary ${location.pathname === link.path ? 'text-brand-primary' : (isHomePage && !isScrolled ? 'text-white' : 'text-brand-gray-dark')}`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center space-x-3 sm:space-x-4 relative z-[60]">
-          <button className={`p-2 transition-colors hidden md:block ${isHomePage && !isScrolled && !isMenuOpen ? 'text-white hover:text-brand-primary' : 'text-brand-gray-dark hover:text-brand-primary'}`}>
-            <Search size={20} />
-          </button>
-          <Link to="/connexion" className="hidden sm:flex items-center space-x-2 px-5 lg:px-6 py-2 sm:py-2.5 rounded-full bg-brand-primary text-white font-bold text-[11px] lg:text-[13px] shadow-lg hover:bg-brand-dark transition-all">
-            <User size={14} className="lg:size-[16px]" />
-            <span>Mon Espace</span>
+    <>
+      <nav className={`fixed top-0 w-full z-[1000] transition-all duration-300 bg-white shadow-sm py-3 lg:py-4`}>
+        <div className="container-custom flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 relative z-[1001] focus:outline-none">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-primary rounded-lg flex items-center justify-center">
+              <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white rounded-sm rotate-45"></div>
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="font-display font-black text-lg sm:text-xl tracking-tighter text-brand-primary">ANPE</span>
+              <span className="text-[7px] sm:text-[8px] uppercase tracking-widest font-bold leading-none text-brand-gray-dark">BÉNIN</span>
+            </div>
           </Link>
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`p-2 transition-colors rounded-xl ${isMenuOpen ? 'bg-brand-primary/10 text-brand-primary' : (isHomePage && !isScrolled ? 'text-white bg-white/10' : 'text-brand-black bg-brand-gray-light lg:hidden')}`}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center space-x-8">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                to={link.path} 
+                className={`text-[13px] font-bold uppercase tracking-widest transition-colors hover:text-brand-primary ${location.pathname === link.path ? 'text-brand-primary' : 'text-brand-gray-dark'}`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center space-x-3 sm:space-x-4 relative z-[1001]">
+            <button className="p-2 transition-colors hidden md:block text-brand-gray-dark hover:text-brand-primary">
+              <Search size={20} />
+            </button>
+            <Link to="/connexion" className="hidden sm:flex items-center space-x-2 px-5 lg:px-6 py-2 sm:py-2.5 rounded-full bg-brand-primary text-white font-bold text-[11px] lg:text-[13px] shadow-lg hover:bg-brand-dark transition-all">
+              <User size={14} className="lg:size-[16px]" />
+              <span>Mon Espace</span>
+            </Link>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              className={`lg:hidden p-2 transition-colors rounded-xl relative ${isMenuOpen ? 'bg-brand-primary text-white' : 'text-brand-black bg-brand-gray-light'}`}
+              aria-label="Menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20, scale: 1.05 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 1.05 }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed inset-0 z-50 bg-white lg:hidden flex flex-col overflow-y-auto"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[999] bg-white lg:hidden flex flex-col overflow-y-auto"
           >
             {/* Background Accent */}
             <div className="absolute top-0 right-0 w-full h-[50vh] bg-brand-primary/5 rounded-b-[5rem] -z-10"></div>
             
-            <div className="flex flex-col p-8 pt-32 space-y-8">
-              <div className="flex flex-col space-y-2">
-                <span className="text-brand-primary font-bold uppercase tracking-[0.3em] text-[10px]">Navigation principale</span>
+            <div className="flex flex-col p-8 pt-28 space-y-8 h-full">
+              <div className="flex flex-col space-y-1">
+                <span className="text-brand-primary font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Navigation principale</span>
                 {navLinks.map((link, idx) => (
                   <motion.div
                     key={link.name}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.05 }}
                   >
                     <Link 
                       to={link.path} 
-                      className={`text-4xl sm:text-5xl font-black tracking-tighter block py-2 ${location.pathname === link.path ? 'text-brand-primary' : 'text-brand-black'}`}
+                      className={`text-4xl font-black tracking-tighter block py-2 ${location.pathname === link.path ? 'text-brand-primary' : 'text-brand-black'}`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {link.name}
@@ -129,7 +135,7 @@ const Navbar = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="pt-8 border-t border-brand-black/5 space-y-6"
+                className="mt-auto space-y-6 pb-8"
               >
                 <Link 
                   to="/connexion" 
@@ -145,7 +151,7 @@ const Navbar = () => {
                   <Link to="/faq" className="p-4 bg-brand-gray-light rounded-xl text-center text-sm font-bold" onClick={() => setIsMenuOpen(false)}>Aide</Link>
                 </div>
 
-                <div className="flex flex-col items-center justify-center space-y-2 py-8 text-brand-gray-dark/40">
+                <div className="flex flex-col items-center justify-center space-y-2 py-4 text-brand-gray-dark/40 border-t border-brand-black/5">
                   <div className="flex space-x-4">
                     <span className="text-[10px] font-bold uppercase tracking-widest leading-none">ANPE BÉNIN</span>
                     <span className="text-[10px] font-bold uppercase tracking-widest leading-none">RÉPUBLIQUE DU BÉNIN</span>
@@ -157,7 +163,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 
@@ -227,57 +233,56 @@ const HomePage = () => {
   return (
     <div className="pt-24 space-y-0">
       {/* Hero Section */}
-      <section className="min-h-[100svh] flex items-center relative overflow-hidden mb-0 pt-20 lg:pt-0">
+      <section className="min-h-[100svh] flex items-center relative overflow-hidden mb-0 pt-24 lg:pt-0">
         {/* Immersive background for Home */}
-        <div className="absolute inset-0 bg-brand-dark lg:hidden -z-10">
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--brand-primary)_0%,_transparent_70%)]"></div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/20 blur-[100px] rounded-full"></div>
+        <div className="absolute inset-0 bg-white lg:hidden -z-10">
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--brand-primary)_0%,_transparent_70%)]"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/5 blur-[100px] rounded-full"></div>
         </div>
 
-        <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center z-10 py-8 lg:py-12">
+        <div className="container-custom flex flex-col items-center z-10 py-12 lg:py-24 text-center">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-8 lg:space-y-10 text-center lg:text-left order-1 px-4 sm:px-6 lg:px-0"
+            className="space-y-8 lg:space-y-12 max-w-4xl mx-auto px-4"
           >
-            <div className="px-3 py-1 bg-white/10 lg:bg-brand-gray-light border border-white/10 lg:border-gray-100 rounded-full inline-flex items-center gap-2 mx-auto lg:mx-0">
+            <div className="px-3 py-1 bg-brand-gray-light border border-gray-100 rounded-full inline-flex items-center gap-2 mx-auto">
               <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
-              <span className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-white/60 lg:text-gray-500">Service Public Numérique</span>
+              <span className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-brand-gray-dark/60 lg:text-gray-500">Service Public Numérique</span>
             </div>
             
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-black leading-[1] lg:leading-[0.85] tracking-tighter text-white lg:text-brand-black">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[100px] font-black leading-[1] lg:leading-[0.82] tracking-tighter text-brand-black">
               L’OPPORTUNITÉ<br />
               <span className="text-brand-primary">DE DEMAIN</span><br />
               COMMENCE ICI.
             </h1>
-            <p className="text-white/70 lg:text-brand-gray-dark/70 text-base md:text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
+            <p className="text-brand-gray-dark/70 text-base md:text-lg lg:text-2xl max-w-2xl mx-auto leading-relaxed font-medium">
               L’ANPE accompagne chaque citoyen béninois dans sa quête d'excellence. 
-              Emploi, formation, entrepreneuriat.
+              Emploi, formation, entrepreneuriat : nous bâtissons ensemble le futur professionnel du Bénin.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
               <Link to="/offres" className="btn-primary py-4 sm:py-5 px-8 lg:px-12 text-lg group shadow-2xl shadow-brand-primary/40">
                 Je cherche un emploi
                 <ArrowRight size={20} className="ml-3 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/formations" className="bg-white/10 lg:bg-white text-white lg:text-brand-black border border-white/20 lg:border-brand-black/5 py-4 sm:py-5 px-8 lg:px-12 text-lg font-bold rounded-2xl hover:bg-white/20 lg:hover:bg-brand-gray-light transition-all backdrop-blur-md">
+              <Link to="/formations" className="bg-brand-gray-light text-brand-black border border-brand-black/5 py-4 sm:py-5 px-8 lg:px-12 text-lg font-bold rounded-2xl hover:bg-brand-gray-light/80 transition-all">
                 Je me forme
               </Link>
             </div>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="relative h-auto lg:h-full flex items-center justify-center py-6 lg:py-10 order-2"
+            className="relative w-full max-w-6xl mt-16 lg:mt-32 flex flex-col items-center justify-center py-6 lg:py-10"
           >
              {/* Organic shapes background */}
-            <div className="absolute w-[300px] lg:w-[600px] h-[300px] lg:h-[600px] bg-brand-primary/20 rounded-full -right-4 lg:-right-40 blur-3xl opacity-50"></div>
-            <div className="absolute w-[200px] lg:w-[450px] h-[200px] lg:h-[450px] bg-brand-accent/20 rounded-[40px] lg:rounded-[100px] rotate-12 -bottom-20 lg:-left-20"></div>
-
-            <div className="relative z-20 flex gap-4 lg:gap-8 px-4 w-full justify-center">
-              <div className="w-[150px] sm:w-[220px] lg:w-[260px] h-[240px] sm:h-[320px] lg:h-[400px] rounded-[35px] lg:rounded-[60px] overflow-hidden border-4 lg:border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] translate-y-12 lg:translate-y-24">
+            <div className="absolute w-[300px] lg:w-[800px] h-[300px] lg:h-[800px] bg-brand-primary/10 rounded-full blur-3xl opacity-50"></div>
+            
+            <div className="relative z-20 flex gap-4 lg:gap-12 px-4 w-full justify-center">
+              <div className="w-[150px] sm:w-[250px] lg:w-[340px] h-[240px] sm:h-[350px] lg:h-[480px] rounded-[35px] lg:rounded-[60px] overflow-hidden border-4 lg:border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] translate-y-12 lg:translate-y-24">
                 <img 
                   src="/src/assets/images/anpe_hero_professionals_1779088259969.png" 
                   alt="Beninese Professional" 
@@ -285,7 +290,7 @@ const HomePage = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="w-[150px] sm:w-[220px] lg:w-[260px] h-[240px] sm:h-[320px] lg:h-[400px] rounded-[35px] lg:rounded-[60px] overflow-hidden border-4 lg:border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
+              <div className="w-[150px] sm:w-[250px] lg:w-[340px] h-[240px] sm:h-[350px] lg:h-[480px] rounded-[35px] lg:rounded-[60px] overflow-hidden border-4 lg:border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
                 <img 
                   src="/src/assets/images/anpe_hero_professionals_1779088259969.png" 
                   alt="Beninese Professional" 
@@ -294,18 +299,18 @@ const HomePage = () => {
                 />
               </div>
             </div>
-            
-            {/* Floating Metric Card */}
+
+            {/* Metric Badge */}
             <motion.div 
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="absolute bottom-10 lg:top-1/4 right-2 sm:right-6 lg:-right-12 z-40 bg-white/90 backdrop-blur-md p-4 lg:p-7 rounded-[2rem] shadow-2xl border border-white/20 flex items-center gap-3 lg:gap-5 scale-90 lg:scale-110"
+              className="absolute -bottom-8 lg:bottom-12 right-0 sm:right-10 lg:right-4 z-40 bg-white/90 backdrop-blur-md p-4 lg:p-7 rounded-[2rem] shadow-2xl border border-white/20 flex items-center gap-3 lg:gap-5 scale-90 lg:scale-110"
             >
               <div className="w-12 lg:w-16 h-12 lg:h-16 bg-brand-primary text-white rounded-2xl flex items-center justify-center shadow-xl shadow-brand-primary/30 shrink-0">
                 <Users size={28} />
               </div>
-              <div>
+              <div className="text-left">
                 <div className="text-2xl lg:text-3xl font-black text-brand-black leading-none tracking-tighter">12k+</div>
                 <div className="text-[9px] lg:text-[10px] font-bold text-brand-gray-dark/40 uppercase tracking-[0.2em] mt-1 lg:mt-2">Professionnels Actifs</div>
               </div>

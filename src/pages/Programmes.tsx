@@ -36,15 +36,15 @@ export const ProgrammesPage = () => {
   return (
     <div className="bg-brand-gray-light/30 min-h-screen">
       {/* Immersive Header */}
-      <div className="min-h-[70svh] lg:min-h-[60vh] bg-brand-primary text-white flex flex-col items-center justify-center relative overflow-hidden pt-32 pb-12 px-4 lg:px-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--brand-dark)_0%,_transparent_60%)] opacity-20"></div>
+      <div className="min-h-[70svh] lg:min-h-[60vh] bg-brand-dark text-white flex flex-col items-center justify-center relative overflow-hidden pt-32 pb-12 px-4 lg:px-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--brand-primary)_0%,_transparent_60%)] opacity-20"></div>
         <div className="container-custom relative z-10 text-center space-y-8 max-w-4xl">
           <div className="space-y-4">
-            <span className="text-brand-accent font-bold uppercase tracking-[0.3em] text-[10px] lg:text-xs">NOS PROGRAMMES INSTITUTIONNELS</span>
+            <span className="text-brand-primary font-bold uppercase tracking-[0.3em] text-[10px] lg:text-xs">NOS PROGRAMMES INSTITUTIONNELS</span>
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-black leading-[1] lg:leading-[0.9] tracking-tighter">
-              Des solutions concrètes pour votre <span className="text-brand-accent">carrière.</span>
+              Des solutions concrètes pour votre <span className="text-brand-primary">carrière.</span>
             </h1>
-            <p className="text-white/80 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
+            <p className="text-white/70 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
               L'État Béninois, à travers l'ANPE, déploie des programmes d'envergure nationale pour répondre aux défis spécifiques de l'emploi et de l'entrepreneuriat.
             </p>
           </div>

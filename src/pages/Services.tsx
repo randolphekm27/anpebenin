@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Settings, ShieldCheck, Briefcase, Zap, Heart, MessageSquare, PieChart, Headphones, HeadphonesIcon } from 'lucide-react';
+import { Settings, ShieldCheck, Briefcase, Zap, Heart, MessageSquare, PieChart, Headphones, HeadphonesIcon, CheckCircle } from 'lucide-react';
 
 export const ServicesPage = () => {
   const services = [
