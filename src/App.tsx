@@ -50,15 +50,15 @@ const Navbar = () => {
   if (isDashboard) return null;
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${(!isHomePage || isScrolled || isMenuOpen) ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${(!isHomePage || isScrolled || isMenuOpen) ? 'bg-white/95 backdrop-blur-md shadow-sm py-2 lg:py-3' : 'bg-transparent py-4 lg:py-6'}`}>
       <div className="container-custom flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-3 relative z-50 focus:outline-none">
-          <div className="w-10 h-10 bg-brand-primary rounded-lg flex items-center justify-center">
-            <div className="w-5 h-5 border-2 border-white rounded-sm rotate-45"></div>
+        <Link to="/" className="flex items-center space-x-2 sm:space-x-3 relative z-[60] focus:outline-none">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-primary rounded-lg flex items-center justify-center">
+            <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white rounded-sm rotate-45"></div>
           </div>
           <div className="flex flex-col leading-none">
-            <span className="font-display font-black text-xl tracking-tighter text-brand-primary">ANPE</span>
-            <span className="text-[8px] uppercase tracking-widest text-brand-gray-dark font-bold leading-none">BÉNIN</span>
+            <span className={`font-display font-black text-lg sm:text-xl tracking-tighter ${(!isHomePage || isScrolled || isMenuOpen) ? 'text-brand-primary' : (isHomePage ? 'text-white' : 'text-brand-primary')}`}>ANPE</span>
+            <span className={`text-[7px] sm:text-[8px] uppercase tracking-widest font-bold leading-none ${(!isHomePage || isScrolled || isMenuOpen) ? 'text-brand-gray-dark' : (isHomePage ? 'text-white/80' : 'text-brand-gray-dark')}`}>BÉNIN</span>
           </div>
         </Link>
 
@@ -68,52 +68,91 @@ const Navbar = () => {
             <Link 
               key={link.name} 
               to={link.path} 
-              className={`text-sm font-medium transition-colors hover:text-brand-primary ${location.pathname === link.path ? 'text-brand-primary' : 'text-brand-gray-dark'}`}
+              className={`text-[13px] font-bold uppercase tracking-widest transition-colors hover:text-brand-primary ${location.pathname === link.path ? 'text-brand-primary' : (isHomePage && !isScrolled ? 'text-white' : 'text-brand-gray-dark')}`}
             >
               {link.name}
             </Link>
           ))}
         </div>
 
-        <div className="flex items-center space-x-4 relative z-50">
-          <button className="p-2 text-brand-gray-dark hover:text-brand-primary transition-colors hidden sm:block">
+        <div className="flex items-center space-x-3 sm:space-x-4 relative z-[60]">
+          <button className={`p-2 transition-colors hidden md:block ${isHomePage && !isScrolled && !isMenuOpen ? 'text-white hover:text-brand-primary' : 'text-brand-gray-dark hover:text-brand-primary'}`}>
             <Search size={20} />
           </button>
-          <Link to="/connexion" className="hidden sm:flex items-center space-x-2 px-6 py-2.5 rounded-full bg-brand-primary text-white font-bold text-[13px] shadow-md hover:bg-brand-dark transition-all">
-            <User size={16} />
+          <Link to="/connexion" className="hidden sm:flex items-center space-x-2 px-5 lg:px-6 py-2 sm:py-2.5 rounded-full bg-brand-primary text-white font-bold text-[11px] lg:text-[13px] shadow-lg hover:bg-brand-dark transition-all">
+            <User size={14} className="lg:size-[16px]" />
             <span>Mon Espace</span>
           </Link>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 text-brand-black"
+            className={`p-2 transition-colors rounded-xl ${isMenuOpen ? 'bg-brand-primary/10 text-brand-primary' : (isHomePage && !isScrolled ? 'text-white bg-white/10' : 'text-brand-black bg-brand-gray-light lg:hidden')}`}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white shadow-xl lg:hidden p-6 border-t border-brand-black/5 flex flex-col space-y-4"
+            initial={{ opacity: 0, y: -20, scale: 1.05 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 1.05 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="fixed inset-0 z-50 bg-white lg:hidden flex flex-col overflow-y-auto"
           >
-            {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                to={link.path} 
-                className={`text-lg font-bold py-2 ${location.pathname === link.path ? 'text-brand-primary' : 'text-brand-black'}`}
+            {/* Background Accent */}
+            <div className="absolute top-0 right-0 w-full h-[50vh] bg-brand-primary/5 rounded-b-[5rem] -z-10"></div>
+            
+            <div className="flex flex-col p-8 pt-32 space-y-8">
+              <div className="flex flex-col space-y-2">
+                <span className="text-brand-primary font-bold uppercase tracking-[0.3em] text-[10px]">Navigation principale</span>
+                {navLinks.map((link, idx) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                  >
+                    <Link 
+                      to={link.path} 
+                      className={`text-4xl sm:text-5xl font-black tracking-tighter block py-2 ${location.pathname === link.path ? 'text-brand-primary' : 'text-brand-black'}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="pt-8 border-t border-brand-black/5 space-y-6"
               >
-                {link.name}
-              </Link>
-            ))}
-            <div className="pt-4 flex flex-col space-y-3">
-              <Link to="/connexion" className="bg-brand-primary text-white py-4 rounded-xl flex items-center justify-center font-bold">
-                Mon Espace
-              </Link>
+                <Link 
+                  to="/connexion" 
+                  className="w-full bg-brand-primary text-white py-5 rounded-2xl flex items-center justify-center font-bold text-lg shadow-xl shadow-brand-primary/20"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <User size={20} className="mr-3" />
+                  Mon Espace Personnel
+                </Link>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <Link to="/contact" className="p-4 bg-brand-gray-light rounded-xl text-center text-sm font-bold" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                  <Link to="/faq" className="p-4 bg-brand-gray-light rounded-xl text-center text-sm font-bold" onClick={() => setIsMenuOpen(false)}>Aide</Link>
+                </div>
+
+                <div className="flex flex-col items-center justify-center space-y-2 py-8 text-brand-gray-dark/40">
+                  <div className="flex space-x-4">
+                    <span className="text-[10px] font-bold uppercase tracking-widest leading-none">ANPE BÉNIN</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest leading-none">RÉPUBLIQUE DU BÉNIN</span>
+                  </div>
+                  <p className="text-[9px] font-medium opacity-50 italic">Service Public de l'Emploi</p>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
@@ -188,51 +227,57 @@ const HomePage = () => {
   return (
     <div className="pt-24 space-y-0">
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center relative overflow-hidden mb-0 px-6 sm:px-0">
-        <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10">
+      <section className="min-h-[100svh] flex items-center relative overflow-hidden mb-0 pt-20 lg:pt-0">
+        {/* Immersive background for Home */}
+        <div className="absolute inset-0 bg-brand-dark lg:hidden -z-10">
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--brand-primary)_0%,_transparent_70%)]"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/20 blur-[100px] rounded-full"></div>
+        </div>
+
+        <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center z-10 py-8 lg:py-12">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-10"
+            className="space-y-8 lg:space-y-10 text-center lg:text-left order-1 px-4 sm:px-6 lg:px-0"
           >
-            <div className="px-3 py-1 bg-brand-gray-light border border-gray-100 rounded-full inline-flex items-center gap-2">
+            <div className="px-3 py-1 bg-white/10 lg:bg-brand-gray-light border border-white/10 lg:border-gray-100 rounded-full inline-flex items-center gap-2 mx-auto lg:mx-0">
               <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
-              <span className="text-[11px] font-bold uppercase tracking-widest text-gray-500">Service Public Numérique</span>
+              <span className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-white/60 lg:text-gray-500">Service Public Numérique</span>
             </div>
             
-            <h1 className="text-6xl md:text-[72px] font-black leading-[0.9] tracking-tighter">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-black leading-[1] lg:leading-[0.85] tracking-tighter text-white lg:text-brand-black">
               L’OPPORTUNITÉ<br />
               <span className="text-brand-primary">DE DEMAIN</span><br />
               COMMENCE ICI.
             </h1>
-            <p className="text-brand-gray-dark/70 text-lg md:text-xl max-w-lg leading-relaxed">
+            <p className="text-white/70 lg:text-brand-gray-dark/70 text-base md:text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
               L’ANPE accompagne chaque citoyen béninois dans sa quête d'excellence. 
-              Emploi, formation, entrepreneuriat : nous bâtissons ensemble le futur professionnel du Bénin.
+              Emploi, formation, entrepreneuriat.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link to="/offres" className="btn-primary py-5 px-10 text-lg group">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
+              <Link to="/offres" className="btn-primary py-4 sm:py-5 px-8 lg:px-12 text-lg group shadow-2xl shadow-brand-primary/40">
                 Je cherche un emploi
                 <ArrowRight size={20} className="ml-3 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/formations" className="btn-secondary py-5 px-10 text-lg">
+              <Link to="/formations" className="bg-white/10 lg:bg-white text-white lg:text-brand-black border border-white/20 lg:border-brand-black/5 py-4 sm:py-5 px-8 lg:px-12 text-lg font-bold rounded-2xl hover:bg-white/20 lg:hover:bg-brand-gray-light transition-all backdrop-blur-md">
                 Je me forme
               </Link>
             </div>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="relative h-full flex items-center justify-center py-10"
+            className="relative h-auto lg:h-full flex items-center justify-center py-6 lg:py-10 order-2"
           >
              {/* Organic shapes background */}
-            <div className="absolute w-[500px] h-[500px] bg-brand-primary/10 rounded-full -right-20 blur-3xl"></div>
-            <div className="absolute w-[350px] h-[350px] bg-brand-accent/10 rounded-[60px] rotate-12 -bottom-10 -left-10"></div>
+            <div className="absolute w-[300px] lg:w-[600px] h-[300px] lg:h-[600px] bg-brand-primary/20 rounded-full -right-4 lg:-right-40 blur-3xl opacity-50"></div>
+            <div className="absolute w-[200px] lg:w-[450px] h-[200px] lg:h-[450px] bg-brand-accent/20 rounded-[40px] lg:rounded-[100px] rotate-12 -bottom-20 lg:-left-20"></div>
 
-            <div className="relative z-20 flex gap-6">
-              <div className="w-[200px] sm:w-[220px] h-[300px] sm:h-[340px] rounded-[40px] overflow-hidden border-8 border-white shadow-2xl translate-y-12">
+            <div className="relative z-20 flex gap-4 lg:gap-8 px-4 w-full justify-center">
+              <div className="w-[150px] sm:w-[220px] lg:w-[260px] h-[240px] sm:h-[320px] lg:h-[400px] rounded-[35px] lg:rounded-[60px] overflow-hidden border-4 lg:border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] translate-y-12 lg:translate-y-24">
                 <img 
                   src="/src/assets/images/anpe_hero_professionals_1779088259969.png" 
                   alt="Beninese Professional" 
@@ -240,7 +285,7 @@ const HomePage = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="w-[200px] sm:w-[220px] h-[300px] sm:h-[340px] rounded-[40px] overflow-hidden border-8 border-white shadow-2xl">
+              <div className="w-[150px] sm:w-[220px] lg:w-[260px] h-[240px] sm:h-[320px] lg:h-[400px] rounded-[35px] lg:rounded-[60px] overflow-hidden border-4 lg:border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
                 <img 
                   src="/src/assets/images/anpe_hero_professionals_1779088259969.png" 
                   alt="Beninese Professional" 
@@ -255,14 +300,14 @@ const HomePage = () => {
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="absolute top-20 right-0 sm:-right-4 z-40 bg-white p-6 rounded-2xl shadow-2xl border border-gray-50 flex items-center gap-4"
+              className="absolute bottom-10 lg:top-1/4 right-2 sm:right-6 lg:-right-12 z-40 bg-white/90 backdrop-blur-md p-4 lg:p-7 rounded-[2rem] shadow-2xl border border-white/20 flex items-center gap-3 lg:gap-5 scale-90 lg:scale-110"
             >
-              <div className="w-12 h-12 bg-yellow-50 rounded-full flex items-center justify-center text-brand-accent shrink-0">
-                <Users size={24} />
+              <div className="w-12 lg:w-16 h-12 lg:h-16 bg-brand-primary text-white rounded-2xl flex items-center justify-center shadow-xl shadow-brand-primary/30 shrink-0">
+                <Users size={28} />
               </div>
               <div>
-                <div className="text-2xl font-black text-brand-primary leading-none">12,450</div>
-                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Postulants Actifs</div>
+                <div className="text-2xl lg:text-3xl font-black text-brand-black leading-none tracking-tighter">12k+</div>
+                <div className="text-[9px] lg:text-[10px] font-bold text-brand-gray-dark/40 uppercase tracking-[0.2em] mt-1 lg:mt-2">Professionnels Actifs</div>
               </div>
             </motion.div>
           </motion.div>
@@ -271,20 +316,21 @@ const HomePage = () => {
 
       {/* Quick Access Utility Bar */}
       <section className="bg-brand-gray-light border-y border-gray-200">
-        <div className="container-custom py-10 flex flex-col md:flex-row gap-6">
+        <div className="container-custom py-8 lg:py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 sm:px-6">
            {[
              { title: 'Recrutement', desc: 'Espace dédié aux entreprises', icon: Briefcase, color: 'bg-green-50 text-brand-primary', link: '/espace-recruteurs' },
              { title: 'Formation', desc: 'Catalogue des certifications', icon: GraduationCap, color: 'bg-yellow-50 text-brand-accent', link: '/formations' },
              { title: 'Actualités', desc: 'Salons & Événements emploi', icon: LayoutGrid, color: 'bg-blue-50 text-blue-500', link: '/actualites' },
-             { title: 'Centre d\'aide', desc: 'Assistance personnalisée', icon: Info, color: 'bg-gray-50 text-gray-500', link: '/faq' },
+             { title: 'Centre d\'aide', desc: 'Assistance personnalisée', icon: Info, color: 'bg-gray-100 text-gray-500', link: '/faq' },
            ].map((item, idx) => (
-             <Link key={idx} to={item.link} className="flex-1 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-shadow cursor-pointer group">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
-                  <item.icon size={24} />
+             <Link key={idx} to={item.link} className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 flex items-center gap-4 hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-brand-gray-light/30 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform"></div>
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform flex-shrink-0 relative z-10`}>
+                  <item.icon size={22} />
                 </div>
-                <div>
+                <div className="relative z-10">
                   <h4 className="font-bold text-[15px]">{item.title}</h4>
-                  <p className="text-xs text-gray-400">{item.desc}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400 font-medium">{item.desc}</p>
                 </div>
              </Link>
            ))}
@@ -325,15 +371,15 @@ const HomePage = () => {
       </section>
 
       {/* User Journey */}
-      <section className="py-32">
+      <section className="py-20 lg:py-32">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-24 space-y-4">
+          <div className="text-center max-w-2xl mx-auto mb-16 lg:mb-24 space-y-4 px-4">
             <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">VOTRE RÉUSSITE</span>
-            <h2 className="text-5xl font-bold">Un parcours vers l'excellence</h2>
-            <p className="text-brand-gray-dark/60 leading-relaxed text-lg">Nous avons simplifié chaque étape pour que votre seule préoccupation soit votre réussite.</p>
+            <h2 className="text-4xl lg:text-6xl font-black tracking-tighter">Un parcours vers l'excellence</h2>
+            <p className="text-brand-gray-dark/60 leading-relaxed text-base lg:text-lg">Nous avons simplifié chaque étape pour que votre seule préoccupation soit votre réussite.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 text-center relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8 lg:gap-12 px-6 sm:px-0">
             {[
               { id: '01', title: 'Je m’inscris', desc: 'Créez votre profil sécurisé' },
               { id: '02', title: 'Profil complet', desc: 'Valorisez vos compétences' },
@@ -342,18 +388,18 @@ const HomePage = () => {
               { id: '05', title: 'Accompagnement', desc: 'Bénéficiez de conseils' },
               { id: '06', title: 'Je réussis', desc: 'Atteignez vos objectifs' },
             ].map((step, idx) => (
-              <div key={idx} className="space-y-6 group">
+              <div key={idx} className="space-y-6 group text-center lg:text-left xl:text-center">
                 <div className="relative">
-                  <div className="w-24 h-24 rounded-[2rem] bg-brand-gray-light flex items-center justify-center mx-auto text-brand-primary font-display font-bold text-2xl group-hover:bg-brand-primary group-hover:text-white group-hover:rotate-6 transition-all duration-500">
+                  <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-[2rem] bg-brand-gray-light flex items-center justify-center mx-auto lg:mx-0 xl:mx-auto text-brand-primary font-display font-black text-2xl group-hover:bg-brand-primary group-hover:text-white group-hover:rotate-6 transition-all duration-500 shadow-sm">
                     {step.id}
                   </div>
                   {idx < 5 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-6 w-12 h-px bg-brand-black/5"></div>
+                    <div className="hidden xl:block absolute top-1/2 -right-6 w-12 h-px bg-brand-black/10"></div>
                   )}
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-bold text-lg">{step.title}</h4>
-                  <p className="text-[10px] text-brand-gray-dark/40 uppercase tracking-widest font-bold leading-tight">{step.desc}</p>
+                  <h4 className="font-bold text-lg lg:text-xl tracking-tight">{step.title}</h4>
+                  <p className="text-[10px] text-brand-gray-dark/40 uppercase tracking-[0.2em] font-black leading-tight sm:px-4 lg:px-0">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -387,6 +433,7 @@ const HomePage = () => {
 };
 
 const JobBoardPage = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const jobs = [
     { title: 'Développeur FullStack Senior', company: 'InovBénin', location: 'Cotonou', type: 'CDI', salary: '450k - 700k CFA', date: 'Il y a 2 jours' },
     { title: 'Responsable Marketing Digital', company: 'Digital Africa', location: 'Porto-Novo', type: 'CDA', salary: '350k - 500k CFA', date: 'Il y a 4 jours' },
@@ -397,21 +444,21 @@ const JobBoardPage = () => {
 
   return (
     <div className="pt-32 pb-20 bg-brand-gray-light/30 min-h-screen">
-      <div className="container-custom space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="space-y-4 max-w-2xl">
+      <div className="container-custom space-y-8 lg:space-y-12">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div className="space-y-4 max-w-2xl text-center lg:text-left px-4 lg:px-0">
             <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">OFFRES D'EMPLOI</span>
-            <h1 className="text-5xl md:text-[64px] font-black leading-tight tracking-tighter">Trouvez votre prochaine <span className="text-brand-primary">opportunité.</span></h1>
-            <p className="text-brand-gray-dark/60 text-lg">Plus de 2,400 offres vérifiées par l'État pour propulser votre carrière.</p>
+            <h1 className="text-4xl sm:text-5xl md:text-[64px] font-black leading-tight tracking-tighter">Trouvez votre prochaine <span className="text-brand-primary">opportunité.</span></h1>
+            <p className="text-brand-gray-dark/60 text-base sm:text-lg">Plus de 2,400 offres vérifiées par l'État pour propulser votre carrière.</p>
           </div>
           
-          <div className="flex flex-col sm:flex-row bg-white p-2 rounded-full shadow-2xl border border-brand-black/5 w-full md:w-auto">
-            <div className="flex items-center px-8 border-b sm:border-b-0 sm:border-r border-brand-gray-light py-3 sm:py-0">
-              <Search size={20} className="text-brand-primary mr-3" />
+          <div className="flex flex-col sm:flex-row bg-white p-2 rounded-2xl sm:rounded-full shadow-2xl border border-brand-black/5 w-full lg:w-auto mx-auto lg:mx-0">
+            <div className="flex items-center px-6 sm:px-8 border-b sm:border-b-0 sm:border-r border-brand-gray-light py-4 sm:py-0">
+              <Search size={20} className="text-brand-primary mr-3 flex-shrink-0" />
               <input type="text" placeholder="Poste, mots-clés..." className="outline-none text-sm w-full lg:w-48 bg-transparent font-medium" />
             </div>
-            <div className="flex items-center px-8 py-3 sm:py-0">
-              <MapPin size={20} className="text-brand-primary mr-3" />
+            <div className="flex items-center px-6 sm:px-8 py-4 sm:py-0">
+              <MapPin size={20} className="text-brand-primary mr-3 flex-shrink-0" />
               <select className="outline-none text-sm bg-transparent appearance-none cursor-pointer flex-1 font-medium pr-8">
                 <option>Tout le Bénin</option>
                 <option>Cotonou</option>
@@ -419,14 +466,25 @@ const JobBoardPage = () => {
                 <option>Parakou</option>
               </select>
             </div>
-            <button className="bg-brand-primary text-white p-5 rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center">
+            <button className="bg-brand-primary text-white py-4 px-6 sm:p-5 rounded-xl sm:rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center w-full sm:w-auto">
+              <span className="sm:hidden mr-2 font-bold">Rechercher</span>
               <ArrowRight size={20} />
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-          <aside className="lg:col-span-1 space-y-8">
+        <div className="flex lg:hidden px-4">
+           <button 
+             onClick={() => setIsFilterOpen(!isFilterOpen)}
+             className="w-full py-4 bg-white rounded-2xl border border-brand-black/5 flex items-center justify-center space-x-2 font-bold text-brand-gray-dark shadow-sm active:bg-gray-50 transition-colors"
+           >
+             <Filter size={18} className="text-brand-primary" />
+             <span>{isFilterOpen ? 'Fermer les filtres' : 'Afficher les filtres'}</span>
+           </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 px-4 lg:px-0">
+          <aside className={`lg:col-span-1 space-y-8 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-brand-black/5">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="font-bold flex items-center text-lg"><Filter size={18} className="mr-2 text-brand-primary" /> Filtres</h3>
@@ -468,7 +526,7 @@ const JobBoardPage = () => {
           </aside>
 
           <main className="lg:col-span-3 space-y-6">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
                <p className="text-sm font-medium text-brand-gray-dark/40"><span className="text-brand-black font-bold">128</span> offres correspondent à vos critères</p>
                <div className="text-xs font-bold text-brand-gray-dark flex items-center">
                   Trier par : <span className="text-brand-primary ml-1 cursor-pointer">Les plus récentes</span>
@@ -480,33 +538,36 @@ const JobBoardPage = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white p-8 lg:p-10 rounded-[2.5rem] border border-brand-black/5 hover:border-brand-primary/30 hover:shadow-2xl transition-all cursor-pointer group relative overflow-hidden"
+                className="bg-white p-6 sm:p-8 lg:p-10 rounded-[2.5rem] border border-brand-black/5 hover:border-brand-primary/30 hover:shadow-2xl transition-all cursor-pointer group relative overflow-hidden"
               >
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-                  <div className="flex gap-8">
-                    <div className="w-20 h-20 bg-brand-gray-light rounded-[1.5rem] flex items-center justify-center text-brand-primary font-bold text-2xl group-hover:bg-brand-primary group-hover:text-white transition-all duration-500 shadow-sm">
+                <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8">
+                  <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-brand-gray-light rounded-[1.5rem] flex items-center justify-center text-brand-primary font-bold text-2xl group-hover:bg-brand-primary group-hover:text-white transition-all duration-500 shadow-sm flex-shrink-0">
                       {job.company[0]}
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                         <h3 className="text-2xl font-bold group-hover:text-brand-primary transition-colors">{job.title}</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 flex-wrap">
+                         <h3 className="text-xl sm:text-2xl font-bold group-hover:text-brand-primary transition-colors">{job.title}</h3>
                          {idx === 0 && <span className="bg-brand-accent/20 text-brand-accent px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Nouveau</span>}
                       </div>
-                      <div className="flex flex-wrap items-center gap-6 text-sm text-brand-gray-dark/50 font-medium">
+                      <div className="flex flex-wrap items-center gap-4 lg:gap-6 text-sm text-brand-gray-dark/50 font-medium">
                         <span className="flex items-center"><Briefcase size={16} className="mr-2 text-brand-primary/60" /> {job.company}</span>
                         <span className="flex items-center"><MapPin size={16} className="mr-2 text-brand-primary/60" /> {job.location}</span>
                         <span className="flex items-center"><Clock size={16} className="mr-2 text-brand-primary/60" /> {job.date}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="text-right hidden md:block mr-8">
+                  <div className="flex items-center justify-between xl:justify-end xl:space-x-4 border-t xl:border-t-0 pt-6 xl:pt-0">
+                    <div className="text-left xl:text-right mr-8">
                       <p className="text-[10px] text-brand-gray-dark/30 font-bold uppercase tracking-[0.2em] mb-1">Salaire Indicatif</p>
-                      <p className="text-xl font-bold text-brand-primary tracking-tight">{job.salary}</p>
+                      <p className="text-lg sm:text-xl font-bold text-brand-primary tracking-tight">{job.salary}</p>
                     </div>
                     <button 
-                      onClick={() => alert(`Candidature envoyée pour le poste de ${job.title} !`)}
-                      className="px-8 py-4 bg-brand-primary text-white rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/10"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert(`Candidature envoyée pour le poste de ${job.title} !`);
+                      }}
+                      className="px-6 sm:px-8 py-3 sm:py-4 bg-brand-primary text-white rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/10"
                     >
                       Postuler
                     </button>
@@ -545,32 +606,65 @@ const PlaceholderPage = ({ title }: { title: string }) => (
 );
 
 const RecruiterSpacePage = () => (
-  <div className="pt-32 pb-20 bg-brand-gray-light/30 min-h-screen">
-    <div className="container-custom space-y-12">
-      <div className="max-w-3xl space-y-6">
-        <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">ESPACE ENTREPRISES</span>
-        <h1 className="text-5xl md:text-[72px] font-black leading-[0.95] tracking-tighter">Recrutez les meilleurs <span className="text-brand-primary">talents</span> du Bénin.</h1>
-        <p className="text-brand-gray-dark/60 text-lg leading-relaxed">
-          Accédez à la CVthèque nationale et bénéficiez de l'accompagnement de l'ANPE pour vos besoins en recrutement.
-        </p>
-        <div className="flex gap-4 pt-4">
-          <Link to="/connexion" className="btn-primary">Publier une offre</Link>
-          <button className="btn-secondary">Découvrir nos solutions</button>
+  <div className="bg-brand-gray-light/30 min-h-screen">
+    {/* Full Height Hero for Recruiter */}
+    <div className="min-h-[90svh] bg-brand-dark text-white flex items-center relative overflow-hidden pt-32 lg:pt-20">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--brand-primary)_0%,_transparent_60%)] opacity-30"></div>
+      <div className="container-custom relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center px-4 lg:px-0 py-12">
+        <div className="max-w-3xl space-y-8 text-center lg:text-left">
+          <span className="text-brand-primary font-bold uppercase tracking-[0.3em] text-[10px] lg:text-xs">ESPACE ENTREPRISES</span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-black leading-[1] lg:leading-[0.9] tracking-tighter">
+            Recrutez les<br />
+            meilleurs <span className="text-brand-primary">talents</span><br />
+            du Bénin.
+          </h1>
+          <p className="text-white/60 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0">
+            Accédez à la CVthèque nationale et bénéficiez de l'accompagnement personnalisé de l'ANPE pour vos besoins stratégiques en recrutement.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
+            <Link to="/connexion" className="btn-primary py-5 px-10 text-lg shadow-2xl shadow-brand-primary/20">Publier une offre</Link>
+            <button className="bg-white/10 hover:bg-white/20 text-white border border-white/20 py-5 px-10 text-lg font-bold rounded-2xl transition-all backdrop-blur-md">Découvrir nos solutions</button>
+          </div>
+        </div>
+        
+        <div className="relative hidden lg:flex justify-center">
+           <div className="w-[400px] h-[500px] bg-white/5 rounded-[4rem] border border-white/10 backdrop-blur-sm p-8 flex flex-col justify-between group">
+              <div className="space-y-4">
+                 <div className="w-12 h-12 bg-brand-primary rounded-xl flex items-center justify-center"><Building2 size={24} /></div>
+                 <h3 className="text-3xl font-black tracking-tighter">Portail<br />Entreprise</h3>
+              </div>
+              <div className="space-y-6">
+                 <div className="p-4 bg-white/10 rounded-2xl border border-white/5 flex items-center gap-4">
+                    <div className="w-10 h-10 bg-brand-primary rounded-lg"></div>
+                    <div className="h-2 w-24 bg-white/20 rounded-full"></div>
+                 </div>
+                 <div className="p-4 bg-white/10 rounded-2xl border border-white/5 flex items-center gap-4 opacity-60">
+                    <div className="w-10 h-10 bg-white/20 rounded-lg"></div>
+                    <div className="h-2 w-32 bg-white/20 rounded-full"></div>
+                 </div>
+              </div>
+           </div>
+           {/* Decorative dots */}
+           <div className="absolute -top-10 -right-10 grid grid-cols-4 gap-4">
+              {[...Array(12)].map((_, i) => <div key={i} className="w-1.5 h-1.5 bg-brand-primary/40 rounded-full"></div>)}
+           </div>
         </div>
       </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    </div>
+
+    <div className="container-custom py-20 lg:py-32 px-4 lg:px-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {[
-          { title: 'CVthèque vérifiée', desc: 'Accès à plus de 150,000 profils qualifiés.', icon: Users },
-          { title: 'IA Matchmaking', desc: 'Algorithmes de recommandation de talents.', icon: Rocket },
-          { title: 'Accompagnement', desc: 'Un conseiller dédié à votre entreprise.', icon: HandshakeIcon },
+          { title: 'CVthèque vérifiée', desc: 'Accès à plus de 150,000 profils qualifiés et minutieusement vérifiés par nos conseillers.', icon: Users },
+          { title: 'IA Matchmaking', desc: 'Algorithmes avancés de recommandation pour trouver le candidat idéal en quelques secondes.', icon: Rocket },
+          { title: 'Accompagnement', desc: 'Profitez de l\'expertise d\'un conseiller dédié à votre entreprise pour vos recrutements de masse.', icon: HandshakeIcon },
         ].map((item, idx) => (
-          <div key={idx} className="bg-white p-8 rounded-[2.5rem] border border-brand-black/5 shadow-sm hover:shadow-xl transition-all">
-            <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center text-brand-primary mb-6">
-              <item.icon size={24} />
+          <div key={idx} className="bg-white p-8 lg:p-12 rounded-[2.5rem] border border-brand-black/5 shadow-sm hover:shadow-2xl transition-all group">
+            <div className="w-14 h-14 bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary mb-8 group-hover:bg-brand-primary group-hover:text-white transition-all duration-500">
+              <item.icon size={28} />
             </div>
-            <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-            <p className="text-sm text-brand-gray-dark/50 leading-relaxed">{item.desc}</p>
+            <h3 className="text-xl lg:text-2xl font-black mb-4 tracking-tight">{item.title}</h3>
+            <p className="text-sm lg:text-base text-brand-gray-dark/50 leading-relaxed font-medium">{item.desc}</p>
           </div>
         ))}
       </div>

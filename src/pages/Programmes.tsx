@@ -34,35 +34,52 @@ export const ProgrammesPage = () => {
   ];
 
   return (
-    <div className="pt-32 pb-20 bg-brand-gray-light/30 min-h-screen">
-      <div className="container-custom space-y-20">
-        <div className="max-w-3xl space-y-6">
-          <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">NOS PROGRAMMES INSTITUTIONNELS</span>
-          <h1 className="text-5xl md:text-[72px] font-black leading-[0.95] tracking-tighter">
-            Des solutions concrètes pour votre <span className="text-brand-primary">carrière.</span>
-          </h1>
-          <p className="text-brand-gray-dark/60 text-lg leading-relaxed max-w-2xl">
-            L'État Béninois, à travers l'ANPE, déploie des programmes d'envergure nationale pour répondre aux défis spécifiques de l'emploi et de l'entrepreneuriat.
-          </p>
+    <div className="bg-brand-gray-light/30 min-h-screen">
+      {/* Immersive Header */}
+      <div className="min-h-[70svh] lg:min-h-[60vh] bg-brand-primary text-white flex flex-col items-center justify-center relative overflow-hidden pt-32 pb-12 px-4 lg:px-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--brand-dark)_0%,_transparent_60%)] opacity-20"></div>
+        <div className="container-custom relative z-10 text-center space-y-8 max-w-4xl">
+          <div className="space-y-4">
+            <span className="text-brand-accent font-bold uppercase tracking-[0.3em] text-[10px] lg:text-xs">NOS PROGRAMMES INSTITUTIONNELS</span>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-black leading-[1] lg:leading-[0.9] tracking-tighter">
+              Des solutions concrètes pour votre <span className="text-brand-accent">carrière.</span>
+            </h1>
+            <p className="text-white/80 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
+              L'État Béninois, à travers l'ANPE, déploie des programmes d'envergure nationale pour répondre aux défis spécifiques de l'emploi et de l'entrepreneuriat.
+            </p>
+          </div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+             <button className="bg-brand-accent text-brand-black px-8 py-4 rounded-xl font-bold text-sm lg:text-base shadow-xl">Découvrir le PSIE</button>
+             <button className="bg-white/10 text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-sm lg:text-base backdrop-blur-sm">Voir tous les projets</button>
+          </motion.div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="container-custom py-12 lg:py-20 space-y-12 lg:space-y-20">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 px-4 lg:px-0">
           {programmes.map((prog, idx) => (
             <motion.div 
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="group bg-white p-10 rounded-3xl border border-brand-black/5 hover:border-brand-primary/20 hover:shadow-2xl transition-all"
+              className="group bg-white p-8 lg:p-10 rounded-3xl border border-brand-black/5 hover:border-brand-primary/20 hover:shadow-2xl transition-all"
             >
-              <div className="flex justify-between items-start mb-8">
-                <div className={`p-5 rounded-2xl ${prog.color} text-white shadow-lg`}>
-                  <prog.icon size={32} />
+              <div className="flex justify-between items-start mb-6 lg:mb-8">
+                <div className={`p-4 lg:p-5 rounded-2xl ${prog.color} text-white shadow-lg`}>
+                  <prog.icon size={28} className="lg:hidden" />
+                  <prog.icon size={32} className="hidden lg:block" />
                 </div>
-                <span className="px-4 py-1.5 rounded-full bg-gray-50 border border-brand-black/5 text-[10px] font-bold uppercase tracking-widest text-brand-gray-dark/50">{prog.tag}</span>
+                <span className="px-3 py-1 lg:px-4 lg:py-1.5 rounded-full bg-gray-50 border border-brand-black/5 text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-brand-gray-dark/50">{prog.tag}</span>
               </div>
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-primary transition-colors">{prog.title}</h3>
-              <p className="text-brand-gray-dark/60 mb-8 leading-relaxed">{prog.desc}</p>
+              <h3 className="text-xl lg:text-2xl font-bold mb-3 lg:mb-4 group-hover:text-brand-primary transition-colors">{prog.title}</h3>
+              <p className="text-sm lg:text-base text-brand-gray-dark/60 mb-6 lg:mb-8 leading-relaxed">{prog.desc}</p>
               <button className="flex items-center text-brand-primary font-bold text-sm group-hover:translate-x-2 transition-transform">
                 En savoir plus <ArrowUpRight size={16} className="ml-1" />
               </button>
@@ -70,14 +87,14 @@ export const ProgrammesPage = () => {
           ))}
         </div>
 
-        <div className="bg-brand-black rounded-3xl p-12 lg:p-20 text-white flex flex-col lg:flex-row items-center gap-12">
+        <div className="bg-brand-black rounded-[2.5rem] p-8 lg:p-20 text-white flex flex-col lg:flex-row items-center gap-10 lg:gap-12 mx-4 lg:mx-0 text-center lg:text-left">
            <div className="flex-1 space-y-6">
-              <h2 className="text-4xl font-bold">Vous êtes un partenaire international ?</h2>
-              <p className="text-gray-400">Collaborons pour multiplier l'impact de nos programmes sur la jeunesse béninoise.</p>
-              <button className="btn-primary border-none">Devenir partenaire</button>
+              <h2 className="text-3xl lg:text-4xl font-bold font-display">Vous êtes un partenaire international ?</h2>
+              <p className="text-sm lg:text-base text-gray-400">Collaborons pour multiplier l'impact de nos programmes sur la jeunesse béninoise.</p>
+              <button className="btn-primary border-none w-full sm:w-auto">Devenir partenaire</button>
            </div>
-           <div className="flex-shrink-0">
-              <Globe size={120} className="text-brand-primary opacity-20" />
+           <div className="flex-shrink-0 hidden sm:block">
+              <Globe size={100} className="text-brand-primary opacity-20 lg:w-[120px]" />
            </div>
         </div>
       </div>

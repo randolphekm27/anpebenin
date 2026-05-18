@@ -7,29 +7,29 @@ export const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-gray-light p-6 pt-24">
-      <div className="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+    <div className="min-h-screen flex items-center justify-center bg-brand-gray-light p-4 sm:p-6 pt-24 pb-12">
+      <div className="max-w-4xl w-full bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
         {/* Visual Side */}
-        <div className="md:w-1/2 bg-brand-dark p-12 text-white flex flex-col justify-between relative overflow-hidden">
+        <div className="md:w-1/2 bg-brand-dark p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden">
           <div className="relative z-10 space-y-6">
             <Link to="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold">A</span>
               </div>
-              <span className="font-display font-bold text-xl leading-none">ANPE BÉNIN</span>
+              <span className="font-display font-medium text-xl leading-none tracking-tight">ANPE BÉNIN</span>
             </Link>
-            <h2 className="text-4xl font-bold leading-tight">
+            <h2 className="text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
               {isLogin ? "Ravi de vous revoir parmi nous." : "Rejoignez l'élite professionnelle du Bénin."}
             </h2>
-            <p className="text-white/60 leading-relaxed text-sm">
+            <p className="text-white/60 leading-relaxed text-sm max-w-md">
               Accédez à votre espace personnalisé pour gérer vos candidatures, certifications et opportunités.
             </p>
           </div>
           
           <div className="relative z-10 mt-12 space-y-4">
-             <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl border border-white/5 backdrop-blur-sm">
+             <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-sm">
                 <ShieldCheck className="text-brand-primary" />
-                <span className="text-xs font-medium text-white/80 tracking-wide uppercase">Données sécurisées par l'État</span>
+                <span className="text-[10px] font-bold text-white/80 tracking-widest uppercase">Données sécurisées par l'État</span>
              </div>
           </div>
 
@@ -41,9 +41,9 @@ export const AuthPage = () => {
         </div>
 
         {/* Form Side */}
-        <div className="md:w-1/2 p-12 lg:p-16 space-y-10">
+        <div className="md:w-1/2 p-10 lg:p-16 space-y-8 lg:space-y-10">
           <div className="text-center md:text-left space-y-2">
-            <h1 className="text-3xl font-bold">{isLogin ? "Connexion" : "Créer un compte"}</h1>
+            <h1 className="text-2xl lg:text-3xl font-bold">{isLogin ? "Connexion" : "Créer un compte"}</h1>
             <p className="text-brand-gray-dark/50 text-sm">
               {isLogin ? "Vous n'avez pas de compte ?" : "Vous avez déjà un compte ?"}
               <button onClick={() => setIsLogin(!isLogin)} className="text-brand-primary font-bold ml-1 hover:underline">

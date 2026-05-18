@@ -46,33 +46,41 @@ export const TrainingPage = () => {
   ];
 
   return (
-    <div className="pt-32 pb-20 bg-brand-gray-light/30 min-h-screen">
-      <div className="container-custom space-y-12">
-        {/* Institutional Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-          <div className="space-y-4 max-w-2xl">
-            <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">CATALOGUE DE FORMATIONS</span>
-            <h1 className="text-5xl md:text-[64px] font-black leading-tight tracking-tighter">
+    <div className="bg-brand-gray-light/30 min-h-screen">
+      {/* Immersive Header Section */}
+      <div className="min-h-[70svh] lg:min-h-[60vh] bg-brand-dark text-white flex flex-col items-center justify-center relative overflow-hidden pt-32 pb-12 px-4 lg:px-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--brand-primary)_0%,_transparent_60%)] opacity-30"></div>
+        <div className="container-custom relative z-10 text-center space-y-8 max-w-4xl">
+          <div className="space-y-4">
+            <span className="text-brand-primary font-bold uppercase tracking-[0.3em] text-[10px] lg:text-xs">CATALOGUE DE FORMATIONS</span>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-black leading-[1] lg:leading-[0.9] tracking-tighter">
               Investissez en vous <span className="text-brand-primary">aujourd'hui.</span>
             </h1>
-            <p className="text-brand-gray-dark/60 text-lg leading-relaxed">
+            <p className="text-white/60 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
               Accédez à des formations certifiantes conçues par les meilleurs partenaires pour booster votre employabilité au Bénin et à l'international.
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row bg-white p-2 rounded-full shadow-2xl border border-brand-black/5 w-full md:w-auto">
-            <div className="flex items-center px-8 py-3 sm:py-0">
-              <Search size={20} className="text-brand-primary mr-3" />
-              <input type="text" placeholder="Que voulez-vous apprendre ?" className="outline-none text-sm w-full lg:w-48 bg-transparent font-medium" />
+          <div className="flex flex-col sm:flex-row bg-white p-2 rounded-2xl sm:rounded-full shadow-2xl border border-white/10 w-full lg:w-auto mx-auto lg:max-w-xl">
+            <div className="flex items-center px-6 sm:px-8 py-4 sm:py-0 w-full">
+              <Search size={20} className="text-brand-primary mr-3 flex-shrink-0" />
+              <input 
+                type="text" 
+                placeholder="Que voulez-vous apprendre ?" 
+                className="outline-none text-sm w-full bg-transparent font-medium text-brand-black placeholder:text-gray-400" 
+              />
             </div>
-            <button className="bg-brand-primary text-white p-5 rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center">
+            <button className="bg-brand-primary text-white py-4 px-6 sm:p-5 rounded-xl sm:rounded-full hover:bg-brand-dark transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center w-full sm:w-auto">
+              <span className="sm:hidden mr-3 font-bold">Lancer la recherche</span>
               <Search size={20} />
             </button>
           </div>
         </div>
+      </div>
 
+      <div className="container-custom py-12 lg:py-20 space-y-8 lg:space-y-12">
         {/* Categories Carousel */}
-        <div className="flex items-center space-x-4 overflow-x-auto pb-8 no-scrollbar scroll-smooth">
+        <div className="flex items-center space-x-3 lg:space-x-4 overflow-x-auto pb-4 lg:pb-8 no-scrollbar scroll-smooth px-4 lg:px-0">
           {categories.map((cat, idx) => (
             <button 
               key={idx} 
@@ -84,7 +92,7 @@ export const TrainingPage = () => {
         </div>
 
         {/* Course Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 px-4 lg:px-0">
           {courses.map((course, idx) => (
             <motion.div 
               key={idx}
@@ -121,17 +129,17 @@ export const TrainingPage = () => {
         </div>
 
         {/* Certifications Banner */}
-        <div className="mt-20 bg-brand-gray-light rounded-3xl p-12 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="mt-20 bg-brand-gray-light rounded-[2.5rem] p-8 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 mx-4 lg:mx-0 text-center lg:text-left">
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold">Obtenez des certifications d'État.</h2>
-            <p className="text-brand-gray-dark/60">Nos programmes sont validés par les ministères et reconnus par les plus grands employeurs du Bénin.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold">Obtenez des certifications d'État.</h2>
+            <p className="text-brand-gray-dark/60 text-sm sm:text-base">Nos programmes sont validés par les ministères et reconnus par les plus grands employeurs du Bénin.</p>
           </div>
           <div className="flex gap-4">
-             <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center p-4 shadow-sm border border-brand-black/5">
-                <Award size={48} className="text-brand-accent" />
+             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-2xl flex items-center justify-center p-4 shadow-sm border border-brand-black/5">
+                <Award size={40} className="text-brand-accent" />
              </div>
-             <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center p-4 shadow-sm border border-brand-black/5">
-                <GraduationCap size={48} className="text-brand-primary" />
+             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-2xl flex items-center justify-center p-4 shadow-sm border border-brand-black/5">
+                <GraduationCap size={40} className="text-brand-primary" />
              </div>
           </div>
         </div>
