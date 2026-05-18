@@ -5,9 +5,11 @@ import {
   Menu, X, Search, User, Briefcase, GraduationCap, 
   LayoutGrid, Rocket, Info, MessageSquare, Bell,
   ChevronRight, ArrowRight, MapPin, Calendar, Clock,
-  Filter, CheckCircle, TrendingUp, Users, ShieldCheck
+  Filter, CheckCircle, TrendingUp, Users, ShieldCheck,
+  Building2
 } from 'lucide-react';
 
+import ScrollToTop from './components/ScrollToTop.tsx';
 import { UserDashboard } from './pages/Dashboard.tsx';
 import { TrainingPage } from './pages/Training.tsx';
 import { ProgrammesPage } from './pages/Programmes.tsx';
@@ -43,9 +45,12 @@ const Navbar = () => {
   ];
 
   const isHomePage = location.pathname === '/';
+  const isDashboard = location.pathname.startsWith('/dashboard');
+
+  if (isDashboard) return null;
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${(!isHomePage || isScrolled || isMenuOpen) ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${(!isHomePage || isScrolled || isMenuOpen) ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
       <div className="container-custom flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-3 relative z-50 focus:outline-none">
           <div className="w-10 h-10 bg-brand-primary rounded-lg flex items-center justify-center">
@@ -527,7 +532,7 @@ const JobBoardPage = () => {
 
 const PlaceholderPage = ({ title }: { title: string }) => (
   <div className="pt-32 pb-20 container-custom min-h-[70vh]">
-    <h1 className="text-5xl font-bold mb-8">{title}</h1>
+    <h1 className="text-5xl font-black mb-8 tracking-tighter">{title}</h1>
     <div className="p-32 border-2 border-dashed border-brand-gray-light rounded-[3rem] flex flex-col items-center justify-center text-brand-gray-dark/20 text-center space-y-6">
       <LayoutGrid size={80} strokeWidth={1} />
       <div className="space-y-2">
@@ -539,10 +544,49 @@ const PlaceholderPage = ({ title }: { title: string }) => (
   </div>
 );
 
+const RecruiterSpacePage = () => (
+  <div className="pt-32 pb-20 bg-brand-gray-light/30 min-h-screen">
+    <div className="container-custom space-y-12">
+      <div className="max-w-3xl space-y-6">
+        <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">ESPACE ENTREPRISES</span>
+        <h1 className="text-5xl md:text-[72px] font-black leading-[0.95] tracking-tighter">Recrutez les meilleurs <span className="text-brand-primary">talents</span> du Bénin.</h1>
+        <p className="text-brand-gray-dark/60 text-lg leading-relaxed">
+          Accédez à la CVthèque nationale et bénéficiez de l'accompagnement de l'ANPE pour vos besoins en recrutement.
+        </p>
+        <div className="flex gap-4 pt-4">
+          <Link to="/connexion" className="btn-primary">Publier une offre</Link>
+          <button className="btn-secondary">Découvrir nos solutions</button>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { title: 'CVthèque vérifiée', desc: 'Accès à plus de 150,000 profils qualifiés.', icon: Users },
+          { title: 'IA Matchmaking', desc: 'Algorithmes de recommandation de talents.', icon: Rocket },
+          { title: 'Accompagnement', desc: 'Un conseiller dédié à votre entreprise.', icon: HandshakeIcon },
+        ].map((item, idx) => (
+          <div key={idx} className="bg-white p-8 rounded-[2.5rem] border border-brand-black/5 shadow-sm hover:shadow-xl transition-all">
+            <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center text-brand-primary mb-6">
+              <item.icon size={24} />
+            </div>
+            <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+            <p className="text-sm text-brand-gray-dark/50 leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const HandshakeIcon = ({ size }: { size: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m11 17 2 2 6-6"/><path d="m3 11 1.164.582a2 2 0 0 0 1.741 0L7.5 10.741a2 2 0 0 1 1.742 0l1.164.582a2 2 0 0 0 1.742 0l1.164-.582a2 2 0 0 1 1.741 0L16.5 11.259a2 2 0 0 0 1.742 0L21 10"/><path d="m14 17 8-8"/><path d="M14 5a2 2 0 1 0-4 0"/><path d="M8 5a2 2 0 1 0-4 0"/><path d="M18 5a2 2 0 1 0-4 0"/></svg>
+);
+
 // Master App Component
 export default function App() {
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <Navbar />
       <main className="flex-grow">
         <AnimatePresence mode="wait">
@@ -559,8 +603,8 @@ export default function App() {
             <Route path="/dashboard" element={<UserDashboard />} />
             <Route path="/evenements" element={<PlaceholderPage title="Événements & Salons" />} />
             <Route path="/faq" element={<PlaceholderPage title="Centre d'aide" />} />
-            <Route path="/espace-recruteurs" element={<PlaceholderPage title="Espace Recruteurs" />} />
-            <Route path="/espace-jeunes" element={<PlaceholderPage title="Espace Jeunes" />} />
+            <Route path="/espace-recruteurs" element={<RecruiterSpacePage />} />
+            <Route path="/espace-jeunes" element={<ProgrammesPage />} />
           </Routes>
         </AnimatePresence>
       </main>
