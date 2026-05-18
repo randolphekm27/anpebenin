@@ -128,3 +128,50 @@ export const AboutPage = () => {
     </div>
   );
 };
+
+export const MentionsPage = () => (
+  <div className="pt-32 pb-20 container-custom px-4">
+    <div className="max-w-4xl mx-auto space-y-12">
+      <div className="space-y-4">
+        <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">JURIDIQUE</span>
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tighter">Mentions Légales</h1>
+      </div>
+      <div className="prose prose-brand max-w-none space-y-8 text-brand-gray-dark/70 font-medium">
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-brand-black">Éditeur du site</h2>
+          <p>Le site internet officiel de l'ANPE (Agence Nationale Pour l'Emploi) est édité par l'ANPE Bénin, établissement public à caractère social situé à Cotonou.</p>
+          <p>Siège social : Avenue Steinmetz, Cotonou, Bénin.</p>
+          <p>Téléphone : +229 21 00 00 00</p>
+        </section>
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-brand-black">Hébergement</h2>
+          <p>Le site est hébergé sur les infrastructures souveraines de la République du Bénin, garantissant la sécurité et la disponibilité des services numériques de l'État.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+);
+
+export const PrivacyPage = () => (
+  <div className="pt-32 pb-20 container-custom px-4">
+    <div className="max-w-4xl mx-auto space-y-12">
+      <div className="space-y-4">
+        <span className="text-brand-primary font-bold uppercase tracking-wider text-xs">DONNÉES PERSONNELLES</span>
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tighter">Confidentialité</h1>
+      </div>
+      <div className="prose prose-brand max-w-none space-y-8 text-brand-gray-dark/70 font-medium">
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-brand-black">Protection des données</h2>
+          <p>L'ANPE s'engage à protéger les données personnelles de chaque citoyen conformément à la législation béninoise sur le numérique.</p>
+          <p>Les informations collectées lors de votre inscription servent exclusivement à faciliter votre insertion professionnelle et à vous proposer des opportunités adaptées à votre profil.</p>
+        </section>
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-brand-black">Vos droits</h2>
+          <p>Vous disposez d'un droit d'accès, de rectification et de suppression de vos données via votre espace personnel ou sur simple demande auprès de nos services.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+);
+
+

@@ -311,12 +311,67 @@ export const UserDashboard = () => {
     </div>
   );
 
+  const LessonsTab = () => (
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-black tracking-tighter">Mes Formations</h2>
+        <Link to="/formations" className="btn-secondary py-2 px-4 text-xs font-bold">Explorer le catalogue</Link>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {[
+          { title: 'Développement Web Moderne', progress: 65, instructor: 'Dr. S. AMOUSSA', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=300' },
+          { title: 'Marketing Digital 360', progress: 20, instructor: 'Mme. G. TOBIAS', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=300' }
+        ].map((course, idx) => (
+          <div key={idx} className="bg-white rounded-[2.5rem] border border-brand-black/5 overflow-hidden flex flex-col group hover:shadow-xl transition-all">
+            <div className="h-40 overflow-hidden">
+               <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+            </div>
+            <div className="p-8 space-y-6">
+               <div>
+                  <h4 className="text-xl font-bold mb-1">{course.title}</h4>
+                  <p className="text-xs text-brand-gray-dark/40 font-bold uppercase tracking-widest">{course.instructor}</p>
+               </div>
+               <div className="space-y-2">
+                  <div className="flex justify-between text-xs font-bold">
+                     <span>Progression</span>
+                     <span className="text-brand-primary">{course.progress}%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-brand-gray-light rounded-full overflow-hidden">
+                     <div className="bg-brand-primary h-full transition-all duration-1000" style={{ width: `${course.progress}%` }}></div>
+                  </div>
+               </div>
+               <button className="w-full py-4 bg-brand-primary/5 text-brand-primary rounded-xl font-bold text-sm hover:bg-brand-primary hover:text-white transition-all">Continuer le cours</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const SavesTab = () => (
+    <div className="space-y-8">
+      <h2 className="text-3xl font-black tracking-tighter">Mes Favoris</h2>
+      <div className="bg-white p-20 rounded-[3rem] border border-brand-black/5 flex flex-col items-center justify-center text-center space-y-6">
+         <div className="w-20 h-20 bg-brand-gray-light rounded-[2rem] flex items-center justify-center text-brand-gray-dark/20">
+            <Bookmark size={40} />
+         </div>
+         <div className="space-y-2">
+            <p className="text-xl font-bold">Votre liste est vide</p>
+            <p className="text-sm text-brand-gray-dark/40 max-w-sm">Sauvegardez des offres d'emploi ou des formations pour les retrouver facilement ici plus tard.</p>
+         </div>
+         <Link to="/offres" className="btn-primary py-3 px-8 text-sm">Parcourir les offres</Link>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeTab) {
       case 'Apps': return <AppsTab />;
       case 'CV': return <CVTab />;
       case 'Chat': return <ChatTab />;
       case 'Profile': return <ProfileTab />;
+      case 'Lessons': return <LessonsTab />;
+      case 'Saves': return <SavesTab />;
       case 'Overview': return <OverviewTab />;
       default: return <div className="p-20 text-center text-brand-gray-dark/20 font-bold italic">Section {activeTab} en cours de développement...</div>;
     }

@@ -15,7 +15,7 @@ import { TrainingPage } from './pages/Training.tsx';
 import { ProgrammesPage } from './pages/Programmes.tsx';
 import { AuthPage } from './pages/Auth.tsx';
 import { ServicesPage } from './pages/Services.tsx';
-import { ContactPage, AboutPage } from './pages/StaticPages.tsx';
+import { ContactPage, AboutPage, MentionsPage, PrivacyPage } from './pages/StaticPages.tsx';
 import { MobileVision, SocialSystem } from './pages/DesignSystem.tsx';
 import { ActualitesPage, FAQPage, EventsPage } from './pages/HelpNews.tsx';
 
@@ -780,8 +780,11 @@ export default function App() {
             <Route path="/dashboard" element={<UserDashboard />} />
             <Route path="/evenements" element={<EventsPage />} />
             <Route path="/faq" element={<FAQPage />} />
+            <Route path="/mentions" element={<MentionsPage />} />
+            <Route path="/confidentialite" element={<PrivacyPage />} />
             <Route path="/espace-recruteurs" element={<RecruiterSpacePage />} />
             <Route path="/espace-jeunes" element={<ProgrammesPage />} />
+            <Route path="*" element={<PlaceholderPage title="Page non trouvée" />} />
           </Routes>
         </AnimatePresence>
       </main>
